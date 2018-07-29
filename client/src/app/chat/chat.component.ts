@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit  } from '@angular/core';
 import { SocketService } from './shared/services/socket.service';
 
 import { Action } from './shared/model/action';
 import { Event } from './shared/model/event';
 import { Message } from './shared/model/message';
 import { OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
+import { UserService } from 'src/app/shared/user.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'chat-room-chat',
@@ -15,11 +17,16 @@ export class ChatComponent implements OnInit, OnDestroy {
   action = Action;
   messages: Message[] = [];
 
-  constructor(private readonly _socketService: SocketService) { }
+  constructor(private readonly _socketService: SocketService, 
+              private readonly _userService : UserService) { }
 
   ngOnInit() {
     this.initIoConnection();
-    this.sendMessage("asdasd");
+
+    this._userService.username$.subscribe(x => {
+      console.log('username', x);
+      this.sendMessage(x);
+    }); 
   }
 
   ngOnDestroy(){

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { UserService } from 'src/app/shared/user.service';
 
 @Component({
   selector: 'chat-room-login',
@@ -10,15 +12,18 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private readonly _formBuilder: FormBuilder, 
+              private readonly _router : Router,
+              private readonly _userService : UserService) { }
 
   ngOnInit() {
-    this.loginForm = this.fb.group({
-      username: ['']
+    this.loginForm = this._formBuilder.group({
+      username: ['', Validators.required]
     })
   }
 
   onSubmit(){
-    console.log(this.loginForm.controls.username.value);
+    this._userService.setUsername(this.loginForm.controls.username.value);
+    this._router.navigate(['/chat']);
   }
 }
