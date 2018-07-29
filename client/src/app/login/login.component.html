@@ -1,0 +1,20 @@
+
+<div class="row">
+  <div class="col-3">
+  </div>
+
+  <div class="col-6">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+        <div class="form-group row">
+            <label for="inputUsername">Enter a username:</label>
+              <input type="text" formControlName="username" class="form-control" id="inputUsername" placeholder="Username">
+          </div>
+      <button type="submit" class="btn btn-outline-dark" [disabled]="!loginForm.valid">Login</button>
+    </form>
+  </div>
+
+  <div class="col-3">
+  </div>
+
+</div>
